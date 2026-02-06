@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"log"
 	"math/rand"
 	"testing"
 	"time"
@@ -34,10 +33,7 @@ func TestAddGetDelete(t *testing.T) {
 	// prepare
 	// настройте подключение к БД
 	db, err := sql.Open("sqlite", "tracker.db")
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
+	assert.NoError(t, err)
 	defer db.Close()
 
 	store := NewParcelStore(db)
@@ -56,10 +52,7 @@ func TestAddGetDelete(t *testing.T) {
 
 	testedParcel, err := store.Get(id)
 	assert.NoError(t, err)
-	assert.Equal(t, testedParcel.Client, parcel.Client)
-	assert.Equal(t, testedParcel.Status, parcel.Status)
-	assert.Equal(t, testedParcel.Address, parcel.Address)
-	assert.Equal(t, testedParcel.CreatedAt, parcel.CreatedAt)
+	assert.Equal(t, testedParcel, parcel)
 
 	// delete
 	// удалите добавленную посылку, убедитесь в отсутствии ошибки
@@ -77,10 +70,7 @@ func TestSetAddress(t *testing.T) {
 	// prepare
 	// настройте подключение к БД
 	db, err := sql.Open("sqlite", "tracker.db")
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
+	assert.NoError(t, err)
 	defer db.Close()
 
 	// add
@@ -113,10 +103,7 @@ func TestSetStatus(t *testing.T) {
 	// prepare
 	// настройте подключение к БД
 	db, err := sql.Open("sqlite", "tracker.db")
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
+	assert.NoError(t, err)
 	defer db.Close()
 
 	// add
@@ -151,10 +138,7 @@ func TestGetByClient(t *testing.T) {
 	// prepare
 	// настройте подключение к БД
 	db, err := sql.Open("sqlite", "tracker.db")
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
+	assert.NoError(t, err)
 	defer db.Close()
 
 	parcels := []Parcel{
