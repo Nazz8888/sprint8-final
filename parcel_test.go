@@ -45,6 +45,7 @@ func TestAddGetDelete(t *testing.T) {
 	id, err := store.Add(parcel)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, id)
+	parcel.Number = id
 
 	// get
 	// получите только что добавленную посылку, убедитесь в отсутствии ошибки
@@ -52,7 +53,7 @@ func TestAddGetDelete(t *testing.T) {
 
 	testedParcel, err := store.Get(id)
 	assert.NoError(t, err)
-	assert.Equal(t, testedParcel, parcel)
+	assert.Equal(t, parcel, testedParcel)
 
 	// delete
 	// удалите добавленную посылку, убедитесь в отсутствии ошибки
